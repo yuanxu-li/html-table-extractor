@@ -16,7 +16,7 @@ with open(os.path.join(here, 'README.md')) as f:
     long_description = f.read()
 
 setup(
-    name='table-extractor',
+    name='html-table-extractor',
     url='https://github.com/yuanxu-li/table-extractor',
     version='1.0.0',
     author='Justin Li',
