@@ -3,22 +3,31 @@ import pdb
 
 
 class Extractor(object):
-    def __init__(self, table):
+    def __init__(self, table, id_=None):
         # input is Tag
         if isinstance(table, Tag):
-            self.table = table
+            self._table = table
         # input is str/unicode
         elif isinstance(table, str) or isinstance(table, unicode):
-            self.table = BeautifulSoup(table, 'html.parser')
+            self._table = BeautifulSoup(table, 'html.parser').find(id=id_)
         else:
             raise Exception('unrecognized type')
 
-        self.output = []
+        self._output = []
+        self._overwrite = False
+        self._transformer = str
+
+    def config(self, **kwargs):
+        if 'overwrite' in kwargs:
+            self._overwrite = kwargs['overwrite']
+        if 'transformer' in kwargs:
+            self._transformer = kwargs['transformer']
 
     def parse(self):
+        self._output = []
         row_ind = 0
         col_ind = 0
-        for row in self.table.find_all('tr'):
+        for row in self._table.find_all('tr'):
             # record the smallest row_span, so that we know how many rows
             # we should skip
             smallest_row_span = 1
@@ -41,8 +50,8 @@ class Extractor(object):
                             break
                         col_ind += 1
 
-                    # insert into self.output
-                    self._insert(row_ind, col_ind, row_span, col_span, cell.get_text())
+                    # insert into self._output
+                    self._insert(row_ind, col_ind, row_span, col_span, self._transformer(cell.get_text()))
 
                     # update col_ind
                     col_ind += col_span
@@ -52,7 +61,7 @@ class Extractor(object):
             col_ind = 0
 
     def return_list(self):
-        return self.output
+        return self._output
 
 
     def _check_validity(self, i, j, height, width):
@@ -60,17 +69,20 @@ class Extractor(object):
         check if a rectangle (i, j, height, width) can be put into self.output
         """
         #pdb.set_trace()
-        return all(self._check_cell_validity(ii, jj) for ii in range(i, i+height) for jj in range(j, j+width))
+        if self._overwrite:
+            return self._check_cell_validity(i, j)
+        else:
+            return all(self._check_cell_validity(ii, jj) for ii in range(i, i+height) for jj in range(j, j+width))
 
     def _check_cell_validity(self, i, j):
         """
-        check if a cell (i, j) can be put into self.output
+        check if a cell (i, j) can be put into self._output
         """
-        if i >= len(self.output):
+        if i >= len(self._output):
             return True
-        if j >= len(self.output[i]):
+        if j >= len(self._output[i]):
             return True
-        if self.output[i][j] is None:
+        if self._output[i][j] is None:
             return True
         return False
 
@@ -81,12 +93,12 @@ class Extractor(object):
                 self._insert_cell(ii, jj, val)
 
     def _insert_cell(self, i, j, val):
-        while i >= len(self.output):
-            self.output.append([])
-        while j >= len(self.output[i]):
-            self.output[i].append(None)
+        while i >= len(self._output):
+            self._output.append([])
+        while j >= len(self._output[i]):
+            self._output[i].append(None)
 
-        self.output[i][j] = val
+        self._output[i][j] = val
 
 
 if __name__ == '__main__':
