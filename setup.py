@@ -32,7 +32,7 @@ setup(
     ],
     keywords='html table beautifulsoup crawler scrape',
     packages=[
-        'table_extractor',
+        'html_table_extractor',
     ],
     install_requires=[
         'beautifulsoup4==4.5.3',
