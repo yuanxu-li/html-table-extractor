@@ -118,7 +118,7 @@ It will print out:
 
 ## Team
 
-* Justin Li
+* [@yuanxu-li](https://github.com/yuanxu-li)
 
 ## Errors/ Bugs
 
