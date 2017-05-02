@@ -113,9 +113,8 @@ extractor.return_list()
 ```
 It will print out:
 ```python
-[[u'1', u'2', u'3'], [u'1', None, u'3', u'4', u'4'], [u'5', u'5', u'3']]
+[[u'1', u'2', u'3'], [u'1', u'4', u'3'], [u'5', u'5', u'3']]
 ```
-
 
 ## Team
 
