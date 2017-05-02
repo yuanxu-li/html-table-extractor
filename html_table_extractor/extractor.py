@@ -14,12 +14,9 @@ class Extractor(object):
             raise Exception('unrecognized type')
 
         self._output = []
-        self._overwrite = False
         self._transformer = str
 
     def config(self, **kwargs):
-        if 'overwrite' in kwargs:
-            self._overwrite = kwargs['overwrite']
         if 'transformer' in kwargs:
             self._transformer = kwargs['transformer']
 
@@ -46,7 +43,7 @@ class Extractor(object):
                     
                     # find the right index
                     while True:
-                        if self._check_validity(row_ind, col_ind, row_span, col_span):
+                        if self._check_cell_validity(row_ind, col_ind):
                             break
                         col_ind += 1
 
@@ -68,11 +65,7 @@ class Extractor(object):
         """
         check if a rectangle (i, j, height, width) can be put into self.output
         """
-        #pdb.set_trace()
-        if self._overwrite:
-            return self._check_cell_validity(i, j)
-        else:
-            return all(self._check_cell_validity(ii, jj) for ii in range(i, i+height) for jj in range(j, j+width))
+        return all(self._check_cell_validity(ii, jj) for ii in range(i, i+height) for jj in range(j, j+width))
 
     def _check_cell_validity(self, i, j):
         """
@@ -98,7 +91,8 @@ class Extractor(object):
         while j >= len(self._output[i]):
             self._output[i].append(None)
 
-        self._output[i][j] = val
+        if self._output[i][j] is None:
+            self._output[i][j] = val
 
 
 if __name__ == '__main__':

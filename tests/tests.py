@@ -1,5 +1,5 @@
 import unittest
-from table_extractor.extractor import Extractor
+from html_table_extractor.extractor import Extractor
 
 
 class TestSimpleExtractor(unittest.TestCase):
@@ -84,15 +84,7 @@ class TestConflictedExtractor(unittest.TestCase):
     def test_return_list(self):
         self.assertEqual(
             self.extractor.return_list(),
-            [[u'1', u'2', u'3'], [u'1', None, u'3', u'4', u'4'], [u'5', u'5', u'3']]
-        )
-
-    def test_config_overwrite(self):
-        self.extractor.config(overwrite=True)
-        self.extractor.parse()
-        self.assertEqual(
-            self.extractor.return_list(),
-            [[u'1', u'2', u'3'], [u'1', u'4', u'4'], [u'5', u'5', u'3']]
+            [[u'1', u'2', u'3'], [u'1', u'4', u'3'], [u'5', u'5', u'3']]
         )
 
 
