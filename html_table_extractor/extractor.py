@@ -5,22 +5,22 @@ import pdb
 
 
 class Extractor(object):
-    def __init__(self, table, id_=None):
+    def __init__(self, table, id_=None, **kwargs):
         # input is Tag
         if isinstance(table, Tag):
-            self._table = table
+            self._table = table.find(id=id_)
         # input is str/unicode
         elif isinstance(table, str) or isinstance(table, unicode):
             self._table = BeautifulSoup(table, 'html.parser').find(id=id_)
         else:
             raise Exception('unrecognized type')
 
-        self._output = []
-        self._transformer = str
-
-    def config(self, **kwargs):
         if 'transformer' in kwargs:
             self._transformer = kwargs['transformer']
+        else:
+            self._transformer = str
+
+        self._output = []
 
     def parse(self):
         self._output = []
@@ -58,6 +58,7 @@ class Extractor(object):
             # update row_ind
             row_ind += smallest_row_span
             col_ind = 0
+        return self
 
     def return_list(self):
         return self._output

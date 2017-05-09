@@ -14,7 +14,7 @@ pip install html-table-extractor
 
 ## Usage
 
-### Example 1
+### Example 1 - Simple
 
 <table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>
 
@@ -32,7 +32,45 @@ It will print out:
 [[u'1', u'2'], [u'3', u'4']]
 ```
 
-### Example 2
+### Example 2 - Transformer
+
+<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>
+
+```python
+from html_table_extractor.extractor import Extractor
+table_doc = """
+<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>
+"""
+extractor = Extractor(table_doc, transformer=int)
+extractor.parse()
+extractor.return_list()
+```
+It will print out:
+```python
+[[1, 2], [3, 4]]
+```
+
+### Example 3 - Pass BS4 Tag
+
+<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>
+
+```python
+from html_table_extractor.extractor import Extractor
+from bs4 import BeautifulSoup
+table_doc = """
+<html><table id='wanted'><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table><table id='unwanted'><tr><td>not wanted</td></tr></table></html>
+"""
+soup = BeautifulSoup(table_doc, 'html.parser')
+extractor = Extractor(soup, id_='wanted')
+extractor.parse()
+extractor.return_list()
+```
+It will print out:
+```python
+[[u'1', u'2'], [u'3', u'4']]
+```
+
+### Example 4 - Complex
 
 <table>
     <tr>
@@ -74,7 +112,7 @@ It will print out:
 [[u'1', u'2', u'3'], [u'1', u'4', u'4'], [u'5', u'5', u'5']]
 ```
 
-### Example 3
+### Example 5 - Conflicted
 
 <table>
     <tr>
@@ -114,6 +152,25 @@ extractor.return_list()
 It will print out:
 ```python
 [[u'1', u'2', u'3'], [u'1', u'4', u'3'], [u'5', u'5', u'3']]
+```
+
+### Example 6 - Write to file
+
+<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>
+
+```python
+from html_table_extractor.extractor import Extractor
+table_doc = """
+<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>
+"""
+extractor = Extractor(table_doc).parse()
+extractor.write_to_csv(path='.')
+```
+It will write to a given path and create a new csv file called `output.csv`:
+```
+1,2
+3,4
+
 ```
 
 ## Team
