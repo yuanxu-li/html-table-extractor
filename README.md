@@ -1,5 +1,5 @@
 # HTML Table Extractor
-_HTML Table Extractor is a python library that uses [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) extract data from complicated and messy html table_
+_HTML Table Extractor is a python library that uses [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) to extract data from complicated and messy html table_
 
 ## Important links
 * Repository: https://github.com/yuanxu-li/html-table-extractor
