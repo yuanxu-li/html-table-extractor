@@ -93,21 +93,3 @@ class Extractor(object):
 
         if self._output[i][j] is None:
             self._output[i][j] = val
-
-
-if __name__ == '__main__':
-    html = """
-    <table>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>4</td>
-        </tr>
-    </table>
-    """
-    ext = Extractor(html)
-    ext.parse()
-    print ext.return_list()
