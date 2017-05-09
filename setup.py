@@ -18,7 +18,7 @@ with open(os.path.join(here, 'README.md')) as f:
 setup(
     name='html-table-extractor',
     url='https://github.com/yuanxu-li/html-table-extractor',
-    version='1.1.0',
+    version='1.2.0',
     author='Justin Li',
     author_email='yuanxu.lee@gmail.com',
     description='A python library for extracting data from html table',
