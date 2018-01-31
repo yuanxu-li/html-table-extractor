@@ -36,13 +36,13 @@ class Extractor(object):
                     # check multiple rows
                     # pdb.set_trace()
                     row_span = int(cell.get('rowspan')) if cell.get('rowspan') else 1
-                    
+
                     # try updating smallest_row_span
                     smallest_row_span = min(smallest_row_span, row_span)
-                    
+
                     # check multiple columns
                     col_span = int(cell.get('colspan')) if cell.get('colspan') else 1
-                    
+
                     # find the right index
                     while True:
                         if self._check_cell_validity(row_ind, col_ind):
@@ -50,7 +50,10 @@ class Extractor(object):
                         col_ind += 1
 
                     # insert into self._output
-                    self._insert(row_ind, col_ind, row_span, col_span, self._transformer(cell.get_text()))
+                    try:
+                        self._insert(row_ind, col_ind, row_span, col_span, self._transformer(cell.get_text()))
+                    except UnicodeEncodeError:
+                        raise Exception( 'Failed to decode text; you might want to specify kwargs transformer=unicode' )
 
                     # update col_ind
                     col_ind += col_span
