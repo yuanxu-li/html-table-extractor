@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import unittest
 from bs4 import BeautifulSoup
 from html_table_extractor.extractor import Extractor
