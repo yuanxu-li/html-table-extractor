@@ -5,3 +5,7 @@ dist
 *.egg
 .idea
 tests/*.pyc
+html_table_extractor/*.pyc
+.tox
+virtualenv
+output.csv
