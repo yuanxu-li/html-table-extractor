@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+from unittest.mock import patch, mock_open
+
 from bs4 import BeautifulSoup
+
 from html_table_extractor.extractor import Extractor
 
 
@@ -130,6 +133,35 @@ class TestConflictedExtractor(unittest.TestCase):
             self.extractor.return_list(),
             [[u'1', u'2', u'3'], [u'1', u'4', u'3'], [u'5', u'5', u'3']]
         )
+
+
+@patch('csv.writer')
+@patch('html_table_extractor.extractor.open')
+class TestWriteToCsv(unittest.TestCase):
+    def setUp(self):
+        html = """
+        <table>
+            <tr>
+              <td>1</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>4</td>
+            </tr>
+        </table>
+        """
+        self.extractor = Extractor(html)
+        self.extractor.parse()
+        mock_open()
+
+    def test_write_to_csv_default(self, csv_mock, _):
+        self.extractor.write_to_csv()
+        csv_mock.assert_called_with('./output.csv', 'w')
+
+    def test_write_to_csv_custom_path_and_filename(self, csv_mock, _):
+        self.extractor.write_to_csv(path='/test/path', filename='testfile.csv')
+        csv_mock.assert_called_with('/test/path/testfile.csv', 'w')
 
 
 if __name__ == '__main__':

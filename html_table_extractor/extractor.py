@@ -69,8 +69,8 @@ class Extractor(object):
     def return_list(self):
         return self._output
 
-    def write_to_csv(self, path='.'):
-        with open(os.path.join(path, 'output.csv'), 'w') as csv_file:
+    def write_to_csv(self, path='.', filename='output.csv'):
+        with open(os.path.join(path, filename), 'w') as csv_file:
             table_writer = csv.writer(csv_file)
             for row in self._output:
                 table_writer.writerow(row)
