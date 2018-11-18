@@ -1,8 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import sys
 import unittest
-from unittest.mock import patch, mock_open
+
+if sys.version_info[0] < 3:
+    import mock
+else:
+    from unittest import mock
 
 from bs4 import BeautifulSoup
 
@@ -135,8 +140,8 @@ class TestConflictedExtractor(unittest.TestCase):
         )
 
 
-@patch('csv.writer')
-@patch('html_table_extractor.extractor.open')
+@mock.patch('csv.writer')
+@mock.patch('html_table_extractor.extractor.open')
 class TestWriteToCsv(unittest.TestCase):
     def setUp(self):
         html = """
@@ -153,7 +158,7 @@ class TestWriteToCsv(unittest.TestCase):
         """
         self.extractor = Extractor(html)
         self.extractor.parse()
-        mock_open()
+        mock.mock_open()
 
     def test_write_to_csv_default(self, csv_mock, _):
         self.extractor.write_to_csv()
