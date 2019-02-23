@@ -63,7 +63,8 @@ class TestExtractorTransformer(unittest.TestCase):
 class TestPassId(unittest.TestCase):
     def test_init_with_id(self):
         html = """
-        <table id='wanted'>
+        <body>
+          <table id='wanted'>
             <tr>
               <td>1</td>
               <td>2</td>
@@ -72,12 +73,13 @@ class TestPassId(unittest.TestCase):
               <td>3</td>
               <td>4</td>
             </tr>
-        </table>
-        <table id='unwanted'>
+          </table>
+          <table id='unwanted'>
             <tr>
               <td>unwanted</td>
             </tr>
-        </table>
+          </table>
+        </body>
         """
         soup = BeautifulSoup(html, 'html.parser')
         extractor = Extractor(soup, id_='wanted').parse()
@@ -85,6 +87,7 @@ class TestPassId(unittest.TestCase):
             extractor.return_list(),
             [[u'1', u'2'], [u'3', u'4']]
         )
+
 
 class TestComplexExtractor(unittest.TestCase):
     def setUp(self):
