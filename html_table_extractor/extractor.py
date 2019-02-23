@@ -6,19 +6,22 @@ import os
 import csv
 import pdb
 
-
 class Extractor(object):
-    def __init__(self, table, id_=None, **kwargs):
-        # input is Tag
-        if isinstance(table, Tag):
-            self._table = table.find(id=id_)
-        # input is str
-        # for py2, make sure you pass in str
-        # for py3, everything is str by default
-        elif isinstance(table, str):
-            self._table = BeautifulSoup(table, 'html.parser').find(id=id_)
+    def __init__(self, input, id_=None, **kwargs):
+        # TODO: should divide this class into two subclasses
+        # to deal with string and bs4.Tag separately
+
+        # validate the input
+        if not isinstance(input, str) and not isinstance(input, Tag):
+            raise Exception('Unrecognized type. Valid input: str, bs4.element.Tag')
+
+        soup = BeautifulSoup(input, 'html.parser').find() if isinstance(input, str) else input
+
+        # locate the target table
+        if soup.name == 'table':
+            self._table = soup
         else:
-            raise Exception('unrecognized type')
+            self._table = soup.find(id=id_)
 
         if 'transformer' in kwargs:
             self._transformer = kwargs['transformer']
