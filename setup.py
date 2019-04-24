@@ -37,7 +37,7 @@ setup(
         'html_table_extractor',
     ],
     install_requires=[
-        'beautifulsoup4==4.5.3',
+        'beautifulsoup4>=4.0.0',
     ],
     long_description=long_description,
 )
