@@ -188,3 +188,10 @@ If something is not working correctly, or if you have any suggestion on improvem
 Copyright (c) 2017 Justin Li. Released under the [MIT License](https://github.com/yuanxu-li/html-table-extractor/blob/master/README.md)
 
 Third-party copyright in this distribution is noted where applicable.
+
+## Misc
+
+How to upload the package to pypi (for the reference of the owner)
+
+- python setup.py bdist_wheel --universal
+- twine upload dist/* --verbose
