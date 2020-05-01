@@ -40,4 +40,5 @@ setup(
         'beautifulsoup4>=4.0.0',
     ],
     long_description=long_description,
+    long_description_content_type='text/markdown',
 )
